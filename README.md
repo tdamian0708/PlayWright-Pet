@@ -1,7 +1,7 @@
 # PlayWright-Pet
 Si se quiere ejecutar por ambientes aqui los comandos
 
-*** development**
+*** development***
 $env:NODE_ENV="dev"; npx cucumber-js --tags "@AllPets"
 
 ***certificacion***
