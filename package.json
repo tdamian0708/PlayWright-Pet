@@ -21,6 +21,7 @@
     "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "config": "^3.3.12"
+    "config": "^3.3.12",
+    "cucumber-js": "^1.0.0"
   }
 }
