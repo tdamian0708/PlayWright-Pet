@@ -1,4 +1,4 @@
-# PlayWright-Pet
+# PlayWright-Pet en bash
 Si se quiere ejecutar por ambientes aqui los comandos
 
 ***development***
