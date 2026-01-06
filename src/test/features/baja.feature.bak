@@ -1,0 +1,263 @@
+Feature: Baja del asegurado en la EPS
+
+  Background:
+    Given me conecto a la base de datos de EPS
+    When accedo al modulo de baja de asegurados
+
+  @BajaTitularUnico @HappyPath
+  Scenario Outline: Baja del Titular cuando es el único asegurado
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida en la base de datos que el asegurado ha sido dado de baja correctamente
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco | 
+      |4268798| 10764838001 |    76483800 |      7648800 | 2025-12-01 | EPS      | Titular    | 
+
+  @BajaTitularDependiente @HapSpyPath
+  Scenario Outline: Baja del Titular y único dependiente
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida en la base de datos que el asegurado y su dependiente han sido dados de baja correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco  | 
+      |4268798| 444444444 |   555555555 |    555555555 | 2025-12-01 | EPS      | Titular     | 
+      |4268798| 444444444 |   555555555 |    777777777 | 2025-12-01 | EPS      | Dependiente | 
+
+  @BajaTitularFamilia @HappyPath
+  Scenario Outline: Baja del Titular y toda la familia
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida en la base de datos que el asegurado y todos sus dependientes han sido dados de baja correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco  | 
+      |4268798| 888888888 |   999999999 |    999999999 | 2025-12-01 | EPS      | Titular     |
+      |4268798| 888888888 |   999999999 |    111111111 | 2025-12-01 | EPS      | Dependiente | 
+      |4268798| 888888888 |   999999999 |    121212121 | 2025-12-01 | EPS      | Dependiente | 
+      |4268798| 888888888 |   999999999 |    113131333 | 2025-12-01 | EPS      | Dependiente | 
+
+  @BajaDependiente @HappyPath
+  Scenario Outline: Baja de un dependiente
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida en la base de datos que el dependiente ha sido dado de baja correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco  | 
+      |4268798| 131313131 |   141414141 |    151515151 | 2025-12-01 | EPS      | Dependiente | 
+
+  @BajaPlanRUCvacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con RUC vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise el RUC."
+
+    Examples:
+      |nro_afiliado | RUC | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798|     |     7648800 |      7648800 | 2025-12-01 | EPS      | Titular    |
+
+  @BajaPlanDNITITULARvacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con DNI Titular vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise el DNI del Titular."
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 |             |      7648800 | 2025-12-01 | EPS      | Titular    |
+
+  @BajaPlanDNIafiliadoVacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con DNI Afiliado vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise el DNI del Afiliado."
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 |     7648800 |              | 2025-12-01 | EPS      | Titular    |
+
+  @BajaPlanFechaBajaVacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Fecha de Baja vacía
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise la Fecha de Baja."
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 |     7648800 |      7648800 |            | EPS      | Titular    |
+
+  @BajaPlanProductoVacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Producto vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise el Producto."
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 |     7648800 |      7648800 | 2025-12-01 |          | Titular    |
+
+  @BajaPlanParentescoVacio @UnhappyPath
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Parentesco vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When intento realizar la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la operación no se realizó con el mensaje "No se pudo proceder con la baja debido a datos incompletos. Por favor, revise el Parentesco."
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 |     7648800 |      7648800 | 2025-12-01 | EPS      |            |
+
+      @BajaRUCIncorrecto
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con RUC incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 00000000000 | 76483800    | 7648800      | 2025-12-01 | EPS      | Titular    |
+
+  @BajaDNITitularIncorrecto
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con DNI Titular incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 | 00000000    | 7648800      | 2025-12-01 | EPS      | Titular    |
+
+  @BajaDNIAfiliadoIncorrecto
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con DNI Afiliado incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 | 76483800    | 0000000      | 2025-12-01 | EPS      | Titular    |
+
+  @BajaFechaIncorrecta
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Fecha de Baja incorrecta
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja  | Producto | Parentesco |
+      |4268798| 10764838001 | 76483800    | 7648800      | 0000-00-00  | EPS      | Titular    |
+
+  @BajaProductoIncorrecto
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Producto incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto  | Parentesco |
+      |4268798| 10764838001 | 76483800    | 7648800      | 2025-12-01 | INCORRECTO | Titular    |
+
+  @BajaParentescoIncorrecto
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Parentesco incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco  |
+      |4268798| 10764838001 | 76483800    | 7648800      | 2025-12-01 | EPS      | INCORRECTO  |
+
+  @BajaRUCyDNISinCoincidencia
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con RUC y DNI Titular sin coincidencia
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 11111111111 | 22222222    | 7648800      | 2025-12-01 | EPS      | Titular    |
+
+  @BajaDNITitularyDNIAfiliadoSinCoincidencia
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con DNI Titular y DNI Afiliado sin coincidencia
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no se realiza y se muestra un mensaje de error
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 10764838001 | 76483800    | 99999999     | 2025-12-01 | EPS      | Titular    |
+
+      @BajaRUCyDNIAfiliadoSinCoincidencia @NegativeTest
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con RUC y DNI Afiliado sin coincidencia
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada por datos incorrectos
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco |
+      |4268798| 123456789 | 987654321   | 111111111   | 2025-12-01 | EPS      | Titular    |
+
+  @BajaFechaBajaMenorPlan @NegativeTest
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con Fecha de Baja menor a la fecha del plan
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada debido a la fecha incorrecta
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja  | Producto | Parentesco |
+      |4268798| 222222222 | 333333333   | 444444444   | 2023-01-01  | EPS      | Titular    |
+
+  @BajaEstadoDiferenteVigencia @NegativeTest
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con un estado diferente al de vigencia
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>", Estado "<Estado>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada debido al estado incorrecto
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco | Estado      |
+      |4268798| 555555555 | 666666666   | 777777777   | 2025-12-01 | EPS      | Titular    | Inactivo    |
+
+  @BajaPlanDiferenteSalud @NegativeTest
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con un plan diferente al de salud
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada debido a un plan incorrecto
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto  | Parentesco |
+      |4268798| 888888888 | 999999999   | 111111111   | 2025-12-01 | Vida      | Titular    |
+
+  @BajaNumeroAfiliadoIncorrecto @NegativeTest
+  Scenario Outline: Baja de afiliados cuando es el único asegurado con número de afiliado incorrecto
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>", Numero Afiliado "<Numero_Afiliado>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada por número de afiliado incorrecto
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco | Numero_Afiliado |
+      |4268798| 101010101 | 202020202   | 303030303   | 2025-12-01 | EPS      | Titular    | 000000000        |
+
+  @BajaDependientesConBaja @NegativeTest
+  Scenario Outline: Baja de afiliados cuando sus dependientes tienen una baja
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>", Estado Dependiente "<Estado_Dependiente>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada debido a dependientes ya dados de baja
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco | Estado_Dependiente |
+      |4268798| 121212121 | 131313131   | 141414141   | 2025-12-01 | EPS      | Titular    | Baja               |
+
+  @BajaNumeroAfiliadoNoExiste @NegativeTest
+  Scenario Outline: Baja de afiliados cuando el número de afiliado no existe
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Afiliado "<DNI_Afiliado>", Fecha de Baja "<Fecha_Baja>", Producto "<Producto>", Parentesco "<Parentesco>", Numero Afiliado "<Numero_Afiliado>"
+    When realizo la baja del asegurado en la base de datos ejecutando el paquete "pr_mov_baja_afiliado"
+    Then se valida que la baja no es procesada debido a número de afiliado inexistente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Afiliado | Fecha_Baja | Producto | Parentesco | Numero_Afiliado |
+      |4268798| 151515151 | 161616161   | 171717171   | 2025-12-01 | EPS      | Titular    | 999999999        |
+
+
+
+

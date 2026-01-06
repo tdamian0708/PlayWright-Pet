@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.github",
+    "\\config",
+    "\\reports",
+    "\\src",
+    "\\src\\test",
+    "\\src\\test\\features",
+    "\\src\\test\\page",
+    "\\src\\test\\steps"
+  ],
+  "SelectedNode": "\\src\\test\\features\\Petclinic.feature",
+  "PreviewInSolutionExplorer": false
+}

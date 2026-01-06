@@ -1,0 +1,17 @@
+Precondiciones:
+El numero del afiliado en estado vigente
+
+Descripcion de los Pasos:
+1. Nos logeamos en PL/SQL en el ambiente de certificacion.
+2. Verificar que el asegurado es el único en la póliza.
+Acceder a la opción de Baja de asegurado.
+Ingresar la siguiente información en el formulario:
+RUC: <RUC>
+DNI del titular: <DNI_Titular>
+DNI del afiliado: <DNI_Afiliado>
+Fecha de baja: <Fecha_Baja>
+Producto: <Producto>
+Parentesco: <Parentesco>
+Confirmar la solicitud de baja.
+Ejecutar en la base de datos el paquete "pr_mov_baja_afiliado" para procesar la baja del asegurado.
+Validar en la base de datos que el asegurado ha sido dado de baja correctamente.

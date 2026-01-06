@@ -1,0 +1,241 @@
+Feature: Cambio de plan del asegurado en la EPS
+
+  Background:
+    Given me conecto a la base de datos de EPS
+    When accedo al modulo de cambio de plan de asegurados
+
+  @CambioPlanTitularUnico @HappyPath1
+  Scenario Outline: Cambio de plan cuando el titular es el único asegurado
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>",Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida en la base de datos que el cambio de plan ha sido realizado correctamente
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 |     7648800 | 7648800        F |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Titular    |
+
+  @CambioPlanTitularDependiente @HappyPath2
+  Scenario Outline: Cambio de plan del titular y único dependiente es la esposa
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>",Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida en la base de datos que el cambio de plan ha sido realizado correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 444444444 |   555555555 |        555555555 |        15/03/2025 | PlanzA      | Plan B     |       12345 | PROD01          | Titular    |
+      | 444444444 |   555555555 |        666666666 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Cónyuge    |
+
+  @CambioPlanTitularFamiliaMenores @HappyPath3
+  Scenario Outline: Cambio de plan del titular y toda la familia donde los hijos son menores de 18 años
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>",Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida en la base de datos que el cambio de plan ha sido realizado correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 888888888 |   999999999 |        999999999 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Titular    |
+      | 888888888 |   999999999 |        111111111 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Cónyuge    |
+      | 888888888 |   999999999 |        121212121 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Hijo       |
+
+  @CambioPlanTitularConyugeMayores @HappyPath4
+  Scenario Outline: Cambio de plan del titular y cónyuge donde los hijos son mayores de 18 años
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>",Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida en la base de datos que el cambio de plan ha sido realizado correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 131313131 |   141414141 |        141414141 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Titular    |
+      | 131313131 |   141414141 |        151515151 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Cónyuge    |
+
+  @CambioPlanHijosMayores @HappyPath5
+  Scenario Outline: Cambio de plan donde los hijos son mayores de 18 años
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>",Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida en la base de datos que el cambio de plan ha sido realizado correctamente
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 161616161 |   171717171 |        181818181 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          | Hijo       |
+
+
+  @CambioPlanRucVacio @UnhappyPath6
+  Scenario Outline: Cambio de plan cuando p_cRucCliente es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida que el cambio de plan no se realiza y se muestra el error "El RUC no puede estar vacío"
+
+    Examples:
+      |nro_afiliado | RUC | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      |     | 7648800     | 7648800          | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+  @CambioPlanDniTitularVacio @UnhappyPath7
+  Scenario Outline: Cambio de plan cuando p_cNumDocTitular es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida que el cambio de plan no se realiza y se muestra el error "El DNI del titular no puede estar vacío"
+
+    Examples:
+      |nro_afiliado | RUC        | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 |             | 7648800          | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+  @CambioPlanDniAfiliadoVacio @UnhappyPath8
+  Scenario Outline: Cambio de plan cuando p_cNumDocAfiliado es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida que el cambio de plan no se realiza y se muestra el error "El DNI del afiliado no puede estar vacío"
+
+    Examples:
+      |nro_afiliado | RUC        | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 | 7648800     |                  | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+  @CambioPlanFechaVacia @UnhappyPath9
+  Scenario Outline: Cambio de plan cuando p_dFec_Inicio_Vig es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se valida que el cambio de plan no se realiza y se muestra el error "La fecha de vigencia no puede estar vacía"
+
+    Examples:
+      |nro_afiliado | RUC        | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 | 7648800     | 7648800          |                    | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+  @CambioPlan_PlanActual_Vacio @UnhappyPath10
+  Scenario Outline: Cambio de plan cuando P_cDes_Plan_Actual es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el plan actual es obligatorio
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 |     7648800 |          7648800 |        15/03/2025 | Plan B     |       12345 | PROD01          | Titular    |
+
+  @CambioPlan_PlanNuevo_Vacio @UnhappyPath11
+  Scenario Outline: Cambio de plan cuando p_cDes_Plan_Nuevo es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el nuevo plan es obligatorio
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Numero_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 |     7648800 |          7648800 |        15/03/2025 | Plan A      |       12345 | PROD01          | Titular    |
+
+  @Cambiop_nNro_Plan_Nuevon_Vacio @UnhappyPath12
+  Scenario Outline: Cambio de plan cuando p_nNro_Plan_Nuevo es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el número de plan es obligatorio
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Codigo_Producto | Parentesco |
+      | 10764838001 |     7648800 |          7648800 |        15/03/2025 | Plan A      | Plan B     | PROD01          | Titular    |
+
+  @CambioPlan_Producto_Vacio @UnhappyPath13
+  Scenario Outline: Cambio de plan cuando p_cProducto es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el código de producto es obligatorio
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Parentesco |
+      | 10764838001 |     7648800 |          7648800 |        15/03/2025 | Plan A      | Plan B     |       12345 | Titular    |
+
+  @CambioPlan_Parentesco_Vacio @UnhappyPath14
+  Scenario Outline: Cambio de plan cuando p_cParentesco es vacío
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco ""
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el parentesco es obligatorio
+
+    Examples:
+      |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto |
+      | 10764838001 |     7648800 |          7648800 |        15/03/2025 | Plan A      | Plan B     |       12345 | PROD01          |
+
+@CambioPlanRUCInvalido @UnhappyPath
+Scenario Outline: Cambio de plan cuando p_cRucCliente tiene data errónea
+  Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Número de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+  When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+  Then se muestra un mensaje de error indicando que el RUC es inválido
+
+  Examples:
+    |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+    | 123         | 555555555   | 666666666        | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+@CambioPlanDNITitularInvalido @UnhappyPath
+Scenario Outline: Cambio de plan cuando p_cNumDocTitular tiene data errónea
+  Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Número de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+  When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+  Then se muestra un mensaje de error indicando que el DNI del titular es inválido
+
+  Examples:
+    |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+    | 444444444   | ABCDEFGHIJ  | 666666666        | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Titular    |
+
+@CambioPlanDNIAfiliadoInvalido @UnhappyPath
+Scenario Outline: Cambio de plan cuando p_cNumDocAfiliado tiene data errónea
+  Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Número de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+  When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+  Then se muestra un mensaje de error indicando que el DNI del afiliado es inválido
+
+  Examples:
+    |nro_afiliado | RUC         | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+    | 444444444   | 555555555   | XXXXXXXX        | 15/03/2025        | Plan A      | Plan B     | 12345       | PROD01          | Cónyuge    |
+
+
+  @CambioPlanFechaVigenciaErronea @UnhappyPath
+  Scenario Outline: Cambio de plan cuando p_dFec_Inicio_Vig tiene data erronea
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que la fecha de vigencia es inválida
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 123456789 |   987654321 |        123123123 |        32/13/2025 | Plan A      | Plan B     |       12345 | PROD01          | Titular    |
+
+  @CambioPlanPlanActualErroneo @UnhappyPath
+  Scenario Outline: Cambio de plan cuando P_cDes_Plan_Actual tiene data erronea
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el plan actual es inválido
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 123456789 |   987654321 |        123123123 |        15/03/2025 | Plan_XYZ    | Plan B     |       12345 | PROD01          | Titular    |
+
+  @CambioPlanNuevoErroneo @UnhappyPath
+  Scenario Outline: Cambio de plan cuando p_cDes_Plan_Nuevo tiene data erronea
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el nuevo plan es inválido
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 123456789 |   987654321 |        123123123 |        15/03/2025 | Plan A      | Plan_XYZ   |       12345 | PROD01          | Titular    |
+
+  @CambioPlanNumeroErroneo @UnhappyPath
+  Scenario Outline: Cambio de plan cuando p_nNro_Plan_Nuevo tiene data erronea
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "pr_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el número de plan es inválido
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 123456789 |   987654321 |        123123123 |        15/03/2025 | Plan A      | Plan B     |       ABCD  | PROD01          | Titular    |
+
+  @CambioPlanProductoErroneo @UnhappyPath
+  Scenario Outline: Cambio de plan cuando p_cProducto tiene data erronea
+    Given ingreso los datos del asegurado con nro afiliado "<nro_afiliado>", RUC "<RUC>", DNI Titular "<DNI_Titular>", DNI Cambiar el plan "<DNI_Cambiar_Plan>", Fecha de vigencia "<p_dFec_Inicio_Vig>" Descripción del plan actual "<Plan_Actual>", Descripción del nuevo plan "<Nuevo_Plan>", Numero de plan a renovar "<Numero_Plan>", Código de producto "<Codigo_Producto>", Descripción del parentesco "<Parentesco>"
+    When realizo el cambio de plan del dependiente en la base de datos ejecutando el paquete "r_mov_cambio_plan"
+    Then se muestra un mensaje de error indicando que el código de producto es inválido
+
+    Examples:
+      |nro_afiliado | RUC       | DNI_Titular | DNI_Cambiar_Plan | p_dFec_Inicio_Vig | Plan_Actual | Nuevo_Plan | Numero_Plan | Codigo_Producto | Parentesco |
+      | 123456789 |   987654321 |        123123123 |        15/03/2025 | Plan A      | Plan B     |       12345 | INVALIDO        | Titular    |
+
+
+
+
+
+
+
+
+
+
